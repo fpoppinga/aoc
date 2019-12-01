@@ -1,0 +1,21 @@
+{
+  "name": "adventofcode",
+  "version": "1.0.0",
+  "description": "My solution of adventofcode.com",
+  "main": "build/index.js",
+  "repository": "https://github.com/fpoppinga/adventofcode",
+  "author": "Finn Poppinga",
+  "license": "MIT",
+  "private": false,
+  "scripts": {
+    "build": "tsc -p .",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.23",
+    "@types/node": "^12.12.14",
+    "jest": "^24.9.0",
+    "ts-jest": "^24.2.0",
+    "typescript": "^3.7.2"
+  }
+}
