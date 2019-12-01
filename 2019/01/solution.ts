@@ -1,8 +1,5 @@
 import {promises as fs} from "fs"
-
-export function fuelForMass(mass: number): number {
-    return Math.max(Math.floor(mass / 3) - 2, 0);
-}
+import {fuelForMassIncludingFuel} from './rocketfuel';
 
 async function main() {
     const input = await fs.readFile("./2019/01/input.txt");
@@ -11,7 +8,7 @@ async function main() {
         .split("\n")
         .filter(it => it !== "")
         .map(it => parseInt(it))
-        .map(it => fuelForMass(it))
+        .map(it => fuelForMassIncludingFuel(it))
         .reduce((a, b) => a + b, 0);
 
     console.info("Result: ", result);
