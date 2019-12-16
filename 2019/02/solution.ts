@@ -1,7 +1,6 @@
 
 import {promises as fs} from "fs"
 import {compute, reverse} from './computer';
-import * as path from 'path';
 
 async function main() {
     const input = await fs.readFile("./2019/02/input.txt");
