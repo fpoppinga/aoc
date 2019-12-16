@@ -1,5 +1,5 @@
 import {promises as fs} from "fs"
-import {getIntersections, getMinManhattanDistance, getWire} from './wire';
+import {getIntersectionInWireCoordinates, getIntersections, getMinManhattanDistance, getWire} from './wire';
 
 async function main() {
     const input = await fs.readFile("./2019/03/input.txt");
@@ -11,7 +11,9 @@ async function main() {
 
     const [wireA, wireB] = parsed;
 
-    console.info(getMinManhattanDistance(getIntersections(wireA, wireB)));
+    console.info("To Origin:", getMinManhattanDistance(getIntersections(wireA, wireB)));
+
+    console.info("Along wire:", getMinManhattanDistance(getIntersectionInWireCoordinates(wireA, wireB)));
 }
 
 main();

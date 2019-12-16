@@ -79,6 +79,30 @@ export function getIntersections(a: Segment[], b: Segment[]): Point[] {
     return result;
 }
 
+export function getIntersectionInWireCoordinates(a: Segment[], b: Segment[]): Point[] {
+    const result: Point[] = [];
+    let wireADist = 0;
+    let wireBDist = 0;
+    for (const segA of a) {
+        for (const segB of b) {
+            const p = intersect(segA, segB);
+            if (p) {
+                result.push({
+                    x: wireADist + Math.abs(segA.start.x - p.x) + Math.abs(segA.start.y - p.y),
+                    y: wireBDist + Math.abs(segB.start.x - p.x) + Math.abs(segB.start.y - p.y)
+                });
+            }
+
+            wireBDist += segB.length;
+        }
+
+        wireBDist = 0;
+        wireADist += segA.length;
+    }
+
+    return result;
+}
+
 export function getWire(encoded: string[]): Segment[] {
     let prevEnd: Point = {x: 0, y: 0};
     return encoded.reduce((acc, it) => {
