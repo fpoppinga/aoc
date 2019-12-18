@@ -3,6 +3,10 @@ enum Opcode {
     MUL = 2,
     INP = 3,
     OUT = 4,
+    JNZ = 5,
+    JZ = 6,
+    LT = 7,
+    EQ = 8,
     HCF = 99
 }
 
@@ -60,6 +64,8 @@ export async function execute(program: string): Promise<number[]> {
                 break;
             case Opcode.ADD:
             case Opcode.MUL:
+            case Opcode.LT:
+            case Opcode.EQ:
                 parameters.push({
                     mode: parameterModes[0],
                     value: memory[instructionPtr++],
@@ -73,6 +79,17 @@ export async function execute(program: string): Promise<number[]> {
                     value: memory[instructionPtr++],
                 });
             break;
+            case Opcode.JNZ:
+            case Opcode.JZ:
+                parameters.push({
+                    mode: parameterModes[0],
+                    value: memory[instructionPtr++],
+                });
+                parameters.push({
+                    mode: parameterModes[1],
+                    value: memory[instructionPtr++],
+                });
+                break;
             case Opcode.INP:
             case Opcode.OUT:
                 parameters.push({
@@ -110,6 +127,36 @@ export async function execute(program: string): Promise<number[]> {
             case Opcode.OUT: {
                 const val = resolve(memory, parameters[0]);
                 console.info("Out:", val);
+                break;
+            }
+            case Opcode.JNZ: {
+                const val = resolve(memory, parameters[0]);
+                if (val !== 0) {
+                    instructionPtr = resolve(memory, parameters[1]);
+                }
+                break;
+            }
+            case Opcode.JZ: {
+                const val = resolve(memory, parameters[0]);
+                if (val === 0) {
+                    instructionPtr = resolve(memory, parameters[1]);
+                }
+                break;
+            }
+            case Opcode.LT: {
+                const val1 = resolve(memory, parameters[0]);
+                const val2 = resolve(memory, parameters[1]);
+                const destination = parameters[2].value;
+
+                memory[destination] = val1 < val2 ? 1 : 0;
+                break;
+            }
+            case Opcode.EQ:{
+                const val1 = resolve(memory, parameters[0]);
+                const val2 = resolve(memory, parameters[1]);
+                const destination = parameters[2].value;
+
+                memory[destination] = val1 === val2 ? 1 : 0;
                 break;
             }
         }

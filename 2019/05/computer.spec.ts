@@ -13,4 +13,8 @@ describe("advanced computer", () => {
             expect(await execute(program)).toEqual(result);
         }
     });
+
+    xit("interactively runs complex programs", async () => {
+        const result = await execute("3,9,8,9,10,9,4,9,99,-1,8");
+    })
 });
